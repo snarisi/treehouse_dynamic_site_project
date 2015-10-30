@@ -25,7 +25,6 @@ function profile(request, response) {
   var username = request.url.replace('/', '');
   
   if (username.length > 0) {
-    console.log(username);
     response.writeHead(200, commonHeaders);
     
     var userData = new Profile(username);
@@ -45,7 +44,10 @@ function profile(request, response) {
     
     
     userData.on('error', function(error) {
-      response.write(error.message);
+      renderer.showPage('header', {}, response);
+      renderer.showPage('error', {errorMessage: error.message}, response);
+      renderer.showPage('search', {}, response);
+      renderer.showPage('footer', {}, response);
       response.end();
     });
     
